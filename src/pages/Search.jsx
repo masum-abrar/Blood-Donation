@@ -1,18 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-
-const districts = [
-  { id: 1, name: 'Dhaka' },
-  { id: 2, name: 'Chittagong' },
-  // Add more districts as needed
-];
-
-const upazilas = {
-  Dhaka: ['Dhanmondi', 'Gulshan', 'Banani'],
-  Chittagong: ['Pahartali', 'Panchlaish', 'Chandgaon'],
-  // Add more upazilas as needed
-};
+import districtData from "../../public/District.json";
+import upazilaData from "../../public/Upazila.json";
 
 const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
@@ -30,6 +20,8 @@ export const Search = () => {
   const [bloodGroup, setBloodGroup] = useState('');
   const [district, setDistrict] = useState('');
   const [upazila, setUpazila] = useState('');
+  const [districtOptions, setDistrictOptions] = useState([]);
+  const [upazilaOptions, setUpazilaOptions] = useState([]);
 
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ['donationRequests', { bloodGroup, district, upazila }],
@@ -41,6 +33,17 @@ export const Search = () => {
     e.preventDefault();
     refetch();
   };
+
+  useEffect(() => {
+    // Map the district names from the JSON data to the districtOptions state
+    const districts = districtData.map(district => district.name);
+    setDistrictOptions(districts);
+  }, []);
+
+  useEffect(() => {
+    const upazilas = upazilaData.map(upazila => upazila.name);
+    setUpazilaOptions(upazilas);
+  }, []);
 
   return (
     <div>
@@ -55,8 +58,8 @@ export const Search = () => {
             required
           >
             <option value="">Select Blood Group</option>
-            {bloodGroups.map((group) => (
-              <option key={group} value={group}>
+            {bloodGroups.map((group, index) => (
+              <option key={index} value={group}>
                 {group}
               </option>
             ))}
@@ -72,9 +75,9 @@ export const Search = () => {
             required
           >
             <option value="">Select District</option>
-            {districts.map((district) => (
-              <option key={district.id} value={district.name}>
-                {district.name}
+            {districtOptions.map((district, index) => (
+              <option key={index} value={district}>
+                {district}
               </option>
             ))}
           </select>
@@ -90,9 +93,9 @@ export const Search = () => {
             disabled={!district}
           >
             <option value="">Select Upazila</option>
-            {district && upazilas[district]?.map((upa) => (
-              <option key={upa} value={upa}>
-                {upa}
+            {upazilaOptions.map((upazila, index) => (
+              <option key={index} value={upazila}>
+                {upazila}
               </option>
             ))}
           </select>
