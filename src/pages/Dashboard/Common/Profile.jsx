@@ -84,7 +84,7 @@ export const Profile = () => {
       <h1 className="text-center text-3xl font-black text-blue-800">My Profile</h1>
       <div className="flex justify-between gap-10 px-16 pr-24 py-12 w-full">
         <div className="w-40 ml-20">
-          <img src={userProfile?.image} className="rounded-btn" alt="Avatar" />
+          <img src={userProfile?.photoURL} className="rounded-btn" alt="Avatar" />
         </div>
         <div className="py-12 space-y-4">
           <form onSubmit={handleSubmit}>

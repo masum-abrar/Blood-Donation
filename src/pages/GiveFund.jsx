@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import { useAxiosSecure } from '../hooks/useAxiosSecure'; // Ensure you have this custom hook implemented
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
+import { Login } from './Login';
 
 export const GiveFund = () => {
   const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
 
   // Fetch funds from the backend
   const { data: funds, isLoading, error } = useQuery({
@@ -14,7 +17,13 @@ export const GiveFund = () => {
       const response = await axiosSecure.get('/payments');
       return response.data;
     },
+    
   });
+  if (!user) {
+    return <Login></Login>
+   
+    
+  }
 
   if (isLoading) {
     return <p>Loading...</p>;
