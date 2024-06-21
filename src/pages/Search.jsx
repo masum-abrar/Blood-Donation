@@ -26,7 +26,7 @@ export const Search = () => {
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ['donationRequests', { bloodGroup, district, upazila }],
     queryFn: fetchDonationRequests,
-    enabled: false, // Disable automatic query on component mount
+    enabled: false, 
   });
 
   const handleSearch = (e) => {
@@ -35,7 +35,7 @@ export const Search = () => {
   };
 
   useEffect(() => {
-    // Map the district names from the JSON data to the districtOptions state
+    
     const districts = districtData.map(district => district.name);
     setDistrictOptions(districts);
   }, []);
