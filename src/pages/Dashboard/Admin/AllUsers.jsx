@@ -119,7 +119,6 @@ export const AllUsers = () => {
     return user.status === statusFilter;
   });
 
-  // Pagination logic
   const offset = currentPage * usersPerPage;
   const currentPageUsers = filteredUsers.slice(offset, offset + usersPerPage);
   const pageCount = Math.ceil(filteredUsers.length / usersPerPage);
@@ -133,7 +132,7 @@ export const AllUsers = () => {
   };
 
   if (isLoading) {
-    return <p>Loading...</p>; // Show loading indicator while fetching data
+    return <p>Loading...</p>; 
   }
 
   if (error) {
