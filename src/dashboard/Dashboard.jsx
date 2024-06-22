@@ -1,13 +1,14 @@
-import { FaHome, FaList, FaSearch, FaEnvelope, FaHeart, FaUsers, FaUtensils } from 'react-icons/fa';
+import { useState } from "react";
+import { FaBars, FaHome, FaList, FaSearch, FaEnvelope, FaHeart, FaUsers } from 'react-icons/fa';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import { UseAdmin } from '../hooks/UseAdmin';
-
 import { UseVolunteer } from '../hooks/UseVolunteer';
 import { useDonor } from '../hooks/UseDonor';
 import { AuthContext } from '../providers/AuthProviders';
 import { useContext } from 'react';
 
 export const Dashboard = () => {
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [isAdmin] = UseAdmin();
     const [isDonor] = useDonor();
     const [isVolunteer] = UseVolunteer();
@@ -16,8 +17,12 @@ export const Dashboard = () => {
     const handleLogOut = () => {
         logOut()
             .then(() => { })
-            .catch(error => console.log(error))
-    }
+            .catch(error => console.log(error));
+    };
+
+    const toggleDrawer = () => {
+        setIsDrawerOpen(!isDrawerOpen);
+    };
 
     const AdminLinks = (
         <>
@@ -109,9 +114,9 @@ export const Dashboard = () => {
     }
 
     return (
-        <div className="flex">
+        <div className="flex min-h-screen">
             {/* Dashboard sidebar */}
-            <div className="w-64 min-h-screen bg-gray-800 text-gray-200">
+            <div className={`fixed lg:relative w-64 bg-gray-800 text-gray-200 lg:transform-none transform ${isDrawerOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform lg:transition-none z-50`}>
                 <ul className="menu py-12 px-5 space-y-4">
                     {links}
 
@@ -132,13 +137,20 @@ export const Dashboard = () => {
                             <FaEnvelope /> <span>Contact</span>
                         </NavLink>
                     </li>
-                   <Link to="/login"> <li><a onClick={handleLogOut} >Logout</a></li></Link>
+                    <li>
+                        <Link to="/login">
+                            <a onClick={handleLogOut}>Logout</a>
+                        </Link>
+                    </li>
                 </ul>
-                
-              
             </div>
             {/* Dashboard content */}
-            <div className="flex-1 p-8 bg-gray-100">
+            <div className={`flex-1 p-8 bg-gray-100 transition-all duration-300 ease-in-out ${isDrawerOpen ? 'lg:ml-64 ml-64' : 'ml-0'}`}>
+                <div className="lg:hidden">
+                    <button onClick={toggleDrawer} className="text-gray-800 focus:outline-none">
+                        <FaBars />
+                    </button>
+                </div>
                 <Outlet />
             </div>
         </div>

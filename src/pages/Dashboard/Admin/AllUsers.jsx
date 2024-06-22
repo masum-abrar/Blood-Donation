@@ -1,82 +1,117 @@
-import React, { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import React, { useState, useEffect } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { FaUsers, FaLock, FaUnlock } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useAxiosSecure } from "../../../hooks/useAxiosSecure";
-import ReactPaginate from "react-paginate";
 
 export const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
+  const queryClient = useQueryClient();
   const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(0);
   const usersPerPage = 6;
 
-  const { data: users = [], refetch } = useQuery({
+  const fetchUsers = async (axiosSecure) => {
+    const res = await axiosSecure.get("/users");
+    return res.data;
+  };
+
+  const { data: users = [], isLoading, error, refetch } = useQuery({
     queryKey: ["users", statusFilter],
-    queryFn: async () => {
-      const res = await axiosSecure.get("/users");
-      return res.data;
-    },
+    queryFn: () => fetchUsers(axiosSecure),
   });
 
-  const handleMakeAdmin = (user) => {
-    axiosSecure.patch(`/users/admin/${user._id}`).then((res) => {
-      if (res.data.modifiedCount > 0) {
-        refetch();
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: `${user.name} is an Admin Now!`,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    });
+  useEffect(() => {
+    refetch();
+  }, [statusFilter, refetch]);
+
+  const handleMakeAdmin = async (user) => {
+    try {
+      await axiosSecure.patch(`/users/admin/${user._id}`);
+      queryClient.invalidateQueries(["users", statusFilter]);
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: `${user.name} is an Admin Now!`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      console.error('Error making admin:', error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to make admin",
+      });
+    }
   };
 
-  const handleMakeVolunteer = (user) => {
-    axiosSecure.patch(`/users/volunteer/${user._id}`).then((res) => {
-      if (res.data.modifiedCount > 0) {
-        refetch();
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: `${user.name} is a Volunteer Now!`,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    });
+  const handleMakeVolunteer = async (user) => {
+    try {
+      await axiosSecure.patch(`/users/volunteer/${user._id}`);
+      queryClient.invalidateQueries(["users", statusFilter]);
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: `${user.name} is a Volunteer Now!`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      console.error('Error making volunteer:', error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to make volunteer",
+      });
+    }
   };
 
-  const handleBlockUser = (user) => {
-    axiosSecure.patch(`/users/block/${user._id}`).then((res) => {
-      if (res.data.modifiedCount > 0) {
-        refetch();
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: `${user.name} has been blocked!`,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    });
+  const handleBlockUser = async (user) => {
+    try {
+      await axiosSecure.patch(`/users/block/${user._id}`);
+      queryClient.invalidateQueries(["users", statusFilter]);
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: `${user.name} has been blocked!`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      console.error('Error blocking user:', error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to block user",
+      });
+    }
   };
 
-  const handleUnblockUser = (user) => {
-    axiosSecure.patch(`/users/unblock/${user._id}`).then((res) => {
-      if (res.data.modifiedCount > 0) {
-        refetch();
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: `${user.name} has been unblocked!`,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    });
+  const handleUnblockUser = async (user) => {
+    try {
+      await axiosSecure.patch(`/users/unblock/${user._id}`);
+      queryClient.invalidateQueries(["users", statusFilter]);
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: `${user.name} has been unblocked!`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      console.error('Error unblocking user:', error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to unblock user",
+      });
+    }
+  };
+
+  const handleFilterChange = (e) => {
+    setStatusFilter(e.target.value);
+    setCurrentPage(0); // Reset to the first page on filter change
   };
 
   const filteredUsers = users.filter((user) => {
@@ -86,15 +121,24 @@ export const AllUsers = () => {
 
   // Pagination logic
   const offset = currentPage * usersPerPage;
-  const currentPageUsers = filteredUsers.slice(
-    offset,
-    offset + usersPerPage
-  );
+  const currentPageUsers = filteredUsers.slice(offset, offset + usersPerPage);
   const pageCount = Math.ceil(filteredUsers.length / usersPerPage);
 
-  const handlePageClick = (event) => {
-    setCurrentPage(event.selected);
+  const handlePageClick = (direction) => {
+    setCurrentPage((prevPage) => {
+      if (direction === 'next' && prevPage < pageCount - 1) return prevPage + 1;
+      if (direction === 'prev' && prevPage > 0) return prevPage - 1;
+      return prevPage;
+    });
   };
+
+  if (isLoading) {
+    return <p>Loading...</p>; // Show loading indicator while fetching data
+  }
+
+  if (error) {
+    return <p>Error fetching users: {error.message}</p>;
+  }
 
   return (
     <div>
@@ -107,7 +151,7 @@ export const AllUsers = () => {
           <select
             id="statusFilter"
             value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
+            onChange={handleFilterChange}
             className="border border-gray-300 rounded-md p-2"
           >
             <option value="all">All</option>
@@ -190,25 +234,22 @@ export const AllUsers = () => {
           </tbody>
         </table>
       </div>
-      <ReactPaginate
-        previousLabel={"❮"}
-        nextLabel={"❯"}
-        breakLabel={"..."}
-        breakClassName={"break-me"}
-        pageCount={pageCount}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={handlePageClick}
-        containerClassName={"pagination"}
-        subContainerClassName={"pages pagination"}
-        activeClassName={"active"}
-        className="flex justify-center mt-4 space-x-2"
-        pageClassName="btn btn-sm"
-        previousClassName="btn btn-sm"
-        nextClassName="btn btn-sm"
-        disabledClassName="btn-disabled"
-        
-      />
+      <div className="flex justify-center mt-4 space-x-2">
+        <button
+          onClick={() => handlePageClick('prev')}
+          disabled={currentPage === 0}
+          className="btn btn-sm"
+        >
+          Previous
+        </button>
+        <button
+          onClick={() => handlePageClick('next')}
+          disabled={currentPage === pageCount - 1}
+          className="btn btn-sm"
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

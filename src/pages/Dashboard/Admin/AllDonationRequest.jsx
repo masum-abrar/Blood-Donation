@@ -15,6 +15,10 @@ export const AllDonationRequest = () => {
   const [isAdmin] = UseAdmin();
   const [isVolunteer] = UseVolunteer();
 
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 2; // Adjust the number of items per page as needed
+
   const fetchDonations = async (axiosSecure, isAdmin, isVolunteer, filter) => {
     let endpoint;
     if (isAdmin) {
@@ -83,12 +87,21 @@ export const AllDonationRequest = () => {
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
+    setCurrentPage(1); // Reset to first page when filter changes
   };
 
   // Ensure donations is an array and filter based on the status
   const filteredDonations = Array.isArray(donations)
     ? (filter === 'all' ? donations : donations.filter(donation => donation.status === filter))
     : [];
+
+  // Pagination logic
+  const pageCount = Math.ceil(filteredDonations.length / itemsPerPage);
+  const paginatedDonations = filteredDonations.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   if (isLoading) {
     return <p>Loading...</p>; // Show loading indicator while fetching data
@@ -128,7 +141,7 @@ export const AllDonationRequest = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredDonations.map((donation) => (
+            {paginatedDonations.map((donation) => (
               <tr key={donation._id}>
                 <td>{donation.recipientName}</td>
                 <td>{`${donation.recipientDistrict}, ${donation.recipientUpazila}`}</td>
@@ -175,7 +188,18 @@ export const AllDonationRequest = () => {
             ))}
           </tbody>
         </table>
-        {filteredDonations.length === 0 && <p>No donation requests found.</p>}
+        {paginatedDonations.length === 0 && <p>No donation requests found.</p>}
+      </div>
+      <div className="flex justify-center mt-4">
+        {Array.from({ length: pageCount }, (_, i) => i + 1).map(page => (
+          <button
+            key={page}
+            onClick={() => handlePageChange(page)}
+            className={`mx-1 px-3 py-1 border rounded ${currentPage === page ? 'bg-blue-500 text-white' : 'bg-white text-blue-500 border-blue-500'}`}
+          >
+            {page}
+          </button>
+        ))}
       </div>
     </div>
   );
