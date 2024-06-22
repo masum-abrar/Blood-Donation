@@ -17,7 +17,7 @@ export const AllDonationRequest = () => {
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 2; // Adjust the number of items per page as needed
+  const itemsPerPage = 2; 
 
   const fetchDonations = async (axiosSecure, isAdmin, isVolunteer, filter) => {
     let endpoint;
