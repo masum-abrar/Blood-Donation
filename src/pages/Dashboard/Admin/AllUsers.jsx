@@ -111,7 +111,7 @@ export const AllUsers = () => {
 
   const handleFilterChange = (e) => {
     setStatusFilter(e.target.value);
-    setCurrentPage(0); // Reset to the first page on filter change
+    setCurrentPage(0); 
   };
 
   const filteredUsers = users.filter((user) => {
