@@ -89,8 +89,8 @@ export const EditDonation = () => {
   const donation = donationRequest;
 
   return (
-    <div className="p-8">
-      <h1 className="text-center text-3xl font-black text-blue-800">Edit Donation Request</h1>
+    <div className="p-8 relative top-12">
+      <h1 className="text-center text-3xl font-black text-black">Edit Donation Request</h1>
       <div className="flex justify-between gap-10 px-16 pr-24 py-12 w-full">
         {/* <div className="w-40 ml-20">
           <img src={donation.photoURL} className="rounded-btn" alt="Avatar" />
