@@ -6,11 +6,11 @@ import pic5 from '../assets/pic5.jpg'
 
 export const Featured = () => {
   return (
- <div>  <h1 className='font-bold text-center text-2xl'>
+ <div>  <h1 className='font-bold text-center text-2xl mt-10'>
          Blood Donation Process</h1>
-    <div className='flex'>
+    <div className='lg:flex flex-row'>
        
-        <div className="card w-96 bg-base-100 shadow-xl max-w-screen-xl mx-auto mb-16">
+        <div className="card w-96 bg-base-100 shadow-xl max-w-screen-xl mx-auto mb-16 ">
            
   <figure className="px-10 pt-10">
     <img src={pic5} alt="Shoes" className="rounded-xl" />
