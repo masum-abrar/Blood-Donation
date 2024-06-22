@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import useAuth from '../hooks/useAuth';
@@ -9,7 +9,6 @@ export const EditDonation = () => {
   const { id } = useParams();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const { data: donationRequest = {}, isLoading, refetch } = useQuery({
@@ -41,41 +40,44 @@ export const EditDonation = () => {
     const { name, value } = e.target;
     setEditedDonationRequest({ ...editedDonationRequest, [name]: value });
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    console.log('Submitting edited donation request:', editedDonationRequest);
-  
+
+    const hasChanges = Object.keys(editedDonationRequest).some(
+      (key) => editedDonationRequest[key] !== donationRequest[key]
+    );
+
+    if (!hasChanges) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Info',
+        text: 'No changes were made',
+      });
+      return;
+    }
+
     try {
-      const res = await axiosSecure.patch(`/donationrequests/${id}`, editedDonationRequest);
-  
-      console.log('Response:', res.data);
-  
-      if (res.data.modifiedCount > 0) {
+      const res = await axiosSecure.patch(`/donationrequestsall/${id}`, editedDonationRequest);
+      console.log('Backend Result:', res.data.result); // Added console log
+
+      if (res.data.result && res.data.result.modifiedCount > 0) {
         refetch();
         setIsEditMode(false);
         Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: `Updated donation request successfully!`,
+          position: 'top-end',
+          icon: 'success',
+          title: 'Updated donation request successfully!',
           showConfirmButton: false,
-          timer: 1500
-        });
-        queryClient.invalidateQueries(['donationRequest', id]);
-      } else {
-        Swal.fire({
-          icon: "info",
-          title: "Info",
-          text: "No changes were made",
+          timer: 1500,
         });
       }
     } catch (error) {
       console.error('Error updating donation request:', error);
       Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Failed to update donation request",
+        icon: 'error',
+        title: 'Error',
+        text: 'Failed to update donation request',
       });
     }
   };
@@ -84,10 +86,15 @@ export const EditDonation = () => {
     return <p>Loading...</p>;
   }
 
+  const donation = donationRequest;
+
   return (
     <div className="p-8">
       <h1 className="text-center text-3xl font-black text-blue-800">Edit Donation Request</h1>
       <div className="flex justify-between gap-10 px-16 pr-24 py-12 w-full">
+        <div className="w-40 ml-20">
+          <img src={donation.photoURL} className="rounded-btn" alt="Avatar" />
+        </div>
         <div className="py-12 space-y-4 w-full">
           <form onSubmit={handleSubmit}>
             <div>
