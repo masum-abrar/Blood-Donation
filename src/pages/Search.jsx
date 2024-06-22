@@ -8,7 +8,7 @@ const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
 const fetchDonationRequests = async ({ queryKey }) => {
   const [_key, { bloodGroup, district, upazila }] = queryKey;
-  const { data } = await axios.get('http://localhost:5000/donation-requests', {
+  const { data } = await axios.get('https://blood-donation-server-sandy.vercel.app/donation-requests', {
     params: { bloodGroup, district, upazila },
   });
   return data;
