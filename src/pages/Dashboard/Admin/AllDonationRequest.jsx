@@ -90,7 +90,7 @@ export const AllDonationRequest = () => {
     setCurrentPage(1); // Reset to first page when filter changes
   };
 
-  // Ensure donations is an array and filter based on the status
+  
   const filteredDonations = Array.isArray(donations)
     ? (filter === 'all' ? donations : donations.filter(donation => donation.status === filter))
     : [];
