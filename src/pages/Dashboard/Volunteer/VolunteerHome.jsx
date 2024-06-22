@@ -17,7 +17,7 @@ export const VolunteerHome = () => {
         }
     });
 
-    // Fetch total funding
+    
     const { data: totalFunding = 0 } = useQuery({
         queryKey: ['totalFunding'],
         queryFn: async () => {
