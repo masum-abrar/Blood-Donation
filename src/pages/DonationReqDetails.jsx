@@ -49,6 +49,10 @@ export const DonationReqDetails = () => {
 
   return (
     <div className="container mx-auto p-4">
+       <Helmet>
+                <title>Blood | Details</title>
+            </Helmet>
+      
       <h2 className="text-3xl font-bold mb-4">Donation Request Details</h2>
       <div className="bg-white shadow-md rounded-lg p-4">
         <p><strong>Recipient Name:</strong> {donation.recipientName}</p>
