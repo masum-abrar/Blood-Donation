@@ -36,7 +36,7 @@ export const AllDonationRequest = () => {
   const { data: donations = [], isLoading, error, refetch } = useQuery({
     queryKey: ['donations', filter, isAdmin, isVolunteer],
     queryFn: () => fetchDonations(axiosSecure, isAdmin, isVolunteer, filter),
-    enabled: !!user, // Always enabled to fetch data if user is available
+    enabled: !!user, 
   });
 
   useEffect(() => {
