@@ -8,7 +8,7 @@ export const AdminHome = () => {
     const { user } = useContext(AuthContext);
     const axiosSecure = useAxiosSecure();
 
-    // Fetch total users (donors)
+    
     const { data: totalUsers = 0 } = useQuery({
         queryKey: ['totalUsers'],
         queryFn: async () => {
@@ -17,7 +17,7 @@ export const AdminHome = () => {
         }
     });
 
-    // Fetch total funding
+   
     const { data: totalFunding = 0 } = useQuery({
         queryKey: ['totalFunding'],
         queryFn: async () => {
@@ -26,7 +26,7 @@ export const AdminHome = () => {
         }
     });
 
-    // Fetch total blood donation requests
+
     const { data: totalRequests = 0 } = useQuery({
         queryKey: ['totalRequests'],
         queryFn: async () => {
