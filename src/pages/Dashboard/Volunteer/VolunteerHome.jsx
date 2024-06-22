@@ -26,7 +26,7 @@ export const VolunteerHome = () => {
         }
     });
 
-    // Fetch total blood donation requests
+    
     const { data: totalRequests = 0 } = useQuery({
         queryKey: ['totalRequests'],
         queryFn: async () => {
