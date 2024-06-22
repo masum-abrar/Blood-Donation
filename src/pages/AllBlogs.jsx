@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet-async';
 export const AllBlogs = () => {
   const axiosSecure = useAxiosSecure();
 
-  // Fetch blogs from the backend
+ 
   const { data: blogs, isLoading, error } = useQuery({
     queryKey: ['blogs'],
     queryFn: async () => {
