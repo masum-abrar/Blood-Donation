@@ -1,8 +1,35 @@
-# React + Vite
+<strong> Website Name : </strong> Blood
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<strong> Live Link : </strong> https://blood-donation-57a50.web.app/
+<strong> Admin Username : </strong> admin@gmail.com 
+<strong> Admin Password :  </strong> Masum@123
 
-Currently, two official plugins are available:
+ <strong> Five points Features and characteristics of My website. </strong>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* Donor can create donation Request.
+
+
+* User can find a matching Donor.
+
+
+* Different Dashboard for admin, donor, volunteer
+
+
+* Admin can active and block to a user
+
+
+* Admin can change any user role.
+
+* User can give fund
+
+* Have pagination functinality
+
+* Have Search Functionality
+
+* Have Payment Method
+
+
+* responsive for all devices
+
+
+
