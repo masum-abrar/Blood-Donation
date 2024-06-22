@@ -11,8 +11,7 @@ export const AllDonationRequest = () => {
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
-  const [filter, setFilter] = useState('all'); // 'all', 'pending', 'inprogress', 'done', 'canceled'
-  const [isAdmin] = UseAdmin();
+  const [filter, setFilter] = useState('all'); 
   const [isVolunteer] = UseVolunteer();
 
   
