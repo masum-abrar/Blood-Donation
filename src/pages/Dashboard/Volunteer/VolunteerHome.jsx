@@ -8,7 +8,7 @@ export const VolunteerHome = () => {
     const { user } = useContext(AuthContext);
     const axiosSecure = useAxiosSecure();
 
-    // Fetch total users (donors)
+    
     const { data: totalUsers = 0 } = useQuery({
         queryKey: ['totalUsers'],
         queryFn: async () => {
