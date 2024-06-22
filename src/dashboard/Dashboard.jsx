@@ -1,14 +1,23 @@
 import { FaHome, FaList, FaSearch, FaEnvelope, FaHeart, FaUsers, FaUtensils } from 'react-icons/fa';
-import { NavLink, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import { UseAdmin } from '../hooks/UseAdmin';
 
 import { UseVolunteer } from '../hooks/UseVolunteer';
 import { useDonor } from '../hooks/UseDonor';
+import { AuthContext } from '../providers/AuthProviders';
+import { useContext } from 'react';
 
 export const Dashboard = () => {
     const [isAdmin] = UseAdmin();
     const [isDonor] = useDonor();
     const [isVolunteer] = UseVolunteer();
+    const { user, logOut } = useContext(AuthContext) || {};
+
+    const handleLogOut = () => {
+        logOut()
+            .then(() => { })
+            .catch(error => console.log(error))
+    }
 
     const AdminLinks = (
         <>
@@ -29,12 +38,12 @@ export const Dashboard = () => {
             </li>
             <li>
                 <NavLink to="/dashboard/all-blood-donation-request" className="flex items-center space-x-2 text-gray-200 hover:text-white">
-                    <FaUtensils /> <span>All Donation Requests</span>
+                    <FaList /> <span>All Donation Requests</span>
                 </NavLink>
             </li>
             <li>
                 <NavLink to="/dashboard/content-management" className="flex items-center space-x-2 text-gray-200 hover:text-white">
-                    <FaUtensils /> <span>Content Management</span>
+                    <FaList /> <span>Content Management</span>
                 </NavLink>
             </li>
         </>
@@ -123,7 +132,10 @@ export const Dashboard = () => {
                             <FaEnvelope /> <span>Contact</span>
                         </NavLink>
                     </li>
+                   <Link to="/login"> <li><a onClick={handleLogOut} >Logout</a></li></Link>
                 </ul>
+                
+              
             </div>
             {/* Dashboard content */}
             <div className="flex-1 p-8 bg-gray-100">
