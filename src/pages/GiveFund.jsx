@@ -5,6 +5,7 @@ import { useAxiosSecure } from '../hooks/useAxiosSecure'; // Ensure you have thi
 import { Link, Navigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { Login } from './Login';
+import { Helmet } from 'react-helmet-async';
 
 export const GiveFund = () => {
   const axiosSecure = useAxiosSecure();
@@ -40,6 +41,10 @@ export const GiveFund = () => {
 
   return (
     <div className="container mx-auto p-4 relative top-12">
+         <Helmet>
+                <title>Blood | Fund</title>
+            </Helmet>
+            
       <h2 className="text-3xl font-bold mb-4 text-center">All Funding</h2>
       <Link  to="/funding"><button className='btn btn-primary ml-[1120px] mb-9'>Give Fund</button></Link>
 
