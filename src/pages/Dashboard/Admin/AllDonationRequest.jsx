@@ -87,7 +87,7 @@ export const AllDonationRequest = () => {
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
-    setCurrentPage(1); // Reset to first page when filter changes
+    setCurrentPage(1); 
   };
 
   
