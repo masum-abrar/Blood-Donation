@@ -3,10 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 import { FaUsers, FaLock, FaUnlock } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useAxiosSecure } from "../../../hooks/useAxiosSecure";
+import ReactPaginate from "react-paginate";
 
 export const AllUsers = () => {
   const axiosSecure = useAxiosSecure();
   const [statusFilter, setStatusFilter] = useState("all");
+  const [currentPage, setCurrentPage] = useState(0);
+  const usersPerPage = 6;
 
   const { data: users = [], refetch } = useQuery({
     queryKey: ["users", statusFilter],
@@ -81,6 +84,18 @@ export const AllUsers = () => {
     return user.status === statusFilter;
   });
 
+  // Pagination logic
+  const offset = currentPage * usersPerPage;
+  const currentPageUsers = filteredUsers.slice(
+    offset,
+    offset + usersPerPage
+  );
+  const pageCount = Math.ceil(filteredUsers.length / usersPerPage);
+
+  const handlePageClick = (event) => {
+    setCurrentPage(event.selected);
+  };
+
   return (
     <div>
       <div className="flex justify-between items-center my-4">
@@ -116,9 +131,9 @@ export const AllUsers = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredUsers.map((user, index) => (
+            {currentPageUsers.map((user, index) => (
               <tr key={user._id}>
-                <th>{index + 1}</th>
+                <th>{offset + index + 1}</th>
                 <td>
                   <img
                     src={user.photoURL}
@@ -136,7 +151,7 @@ export const AllUsers = () => {
                       onClick={() => handleMakeAdmin(user)}
                       className="btn btn-sm bg-blue-500"
                     >
-                      <FaUsers className="text-white text-2xl"></FaUsers>
+                      <FaUsers className="text-white text-2xl" />
                     </button>
                   )}
                 </td>
@@ -148,7 +163,7 @@ export const AllUsers = () => {
                       onClick={() => handleMakeVolunteer(user)}
                       className="btn btn-sm bg-blue-500"
                     >
-                      <FaUsers className="text-white text-2xl"></FaUsers>
+                      <FaUsers className="text-white text-2xl" />
                     </button>
                   )}
                 </td>
@@ -159,14 +174,14 @@ export const AllUsers = () => {
                       onClick={() => handleUnblockUser(user)}
                       className="btn btn-sm bg-green-500"
                     >
-                      <FaUnlock className="text-white text-2xl"></FaUnlock>
+                      <FaUnlock className="text-white text-2xl" />
                     </button>
                   ) : (
                     <button
                       onClick={() => handleBlockUser(user)}
                       className="btn btn-sm bg-red-500"
                     >
-                      <FaLock className="text-white text-2xl"></FaLock>
+                      <FaLock className="text-white text-2xl" />
                     </button>
                   )}
                 </td>
@@ -175,6 +190,25 @@ export const AllUsers = () => {
           </tbody>
         </table>
       </div>
+      <ReactPaginate
+        previousLabel={"❮"}
+        nextLabel={"❯"}
+        breakLabel={"..."}
+        breakClassName={"break-me"}
+        pageCount={pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination"}
+        subContainerClassName={"pages pagination"}
+        activeClassName={"active"}
+        className="flex justify-center mt-4 space-x-2"
+        pageClassName="btn btn-sm"
+        previousClassName="btn btn-sm"
+        nextClassName="btn btn-sm"
+        disabledClassName="btn-disabled"
+        
+      />
     </div>
   );
 };
