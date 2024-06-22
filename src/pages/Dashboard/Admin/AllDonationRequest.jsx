@@ -104,7 +104,7 @@ export const AllDonationRequest = () => {
   };
 
   if (isLoading) {
-    return <p>Loading...</p>; // Show loading indicator while fetching data
+    return <p>Loading...</p>; 
   }
 
   if (error) {
