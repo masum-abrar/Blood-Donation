@@ -27,20 +27,8 @@ export const Carasoul = () => {
             <a href="#slide3" className="btn btn-circle">❯</a>
           </div>
         </div>
-        <div id="slide3" className="carousel-item relative w-full">
-          <img src="https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.jpg" className="w-full h-[600px] object-cover" alt="Slide 3" />
-          <div className="absolute flex justify-between items-center transform -translate-y-1/2 left-5 right-5 top-1/2">
-            <a href="#slide2" className="btn btn-circle">❮</a>
-            <a href="#slide4" className="btn btn-circle">❯</a>
-          </div>
-        </div>
-        <div id="slide4" className="carousel-item relative w-full">
-          <img src="https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.jpg" className="w-full h-[600px] object-cover" alt="Slide 4" />
-          <div className="absolute flex justify-between items-center transform -translate-y-1/2 left-5 right-5 top-1/2">
-            <a href="#slide3" className="btn btn-circle">❮</a>
-            <a href="#slide1" className="btn btn-circle">❯</a>
-          </div>
-        </div>
+       
+       
         <Link to="/signup">
           <button className="btn btn-ghost bg-rose-600 absolute px-8 text-white top-[70%] left-[30%] lg:left-[40%] lg:top-[60%] transform -translate-x-1/2 -translate-y-1/2">
             JOIN AS DONOR
