@@ -22,12 +22,15 @@ import { Funding } from "../pages/Funding";
 import { GiveFund } from "../pages/GiveFund";
 import { AllBlogs } from "../pages/AllBlogs";
 import { Search } from "../pages/Search";
+import { Error } from "../pages/Error";
+import PrivateRoute from "./PrivateRoute";
 
 
 const Router = createBrowserRouter([
     {
       path: "/",
       element:  <Layout></Layout> ,
+      errorElement: <Error/> ,
       children :[
         {
           path : "/",
@@ -61,7 +64,7 @@ const Router = createBrowserRouter([
          
           {
              path:"/details/:id",
-             element : <DonationReqDetails></DonationReqDetails>
+             element : <PrivateRoute><DonationReqDetails></DonationReqDetails></PrivateRoute>
           },
           {
             path: "/edit/:id",
@@ -75,7 +78,7 @@ const Router = createBrowserRouter([
           },
           {
             path: "funding",
-            element: <Funding></Funding>
+            element: <PrivateRoute><Funding></Funding></PrivateRoute>
   
           },
           {

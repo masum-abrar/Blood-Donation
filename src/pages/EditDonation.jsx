@@ -48,14 +48,14 @@ export const EditDonation = () => {
       (key) => editedDonationRequest[key] !== donationRequest[key]
     );
 
-    if (!hasChanges) {
-      Swal.fire({
-        icon: 'info',
-        title: 'Info',
-        text: 'No changes were made',
-      });
-      return;
-    }
+    // if (!hasChanges) {
+    //   Swal.fire({
+    //     icon: 'info',
+    //     title: 'Info',
+    //     text: 'No changes were made',
+    //   });
+    //   return;
+    // }
 
     try {
       const res = await axiosSecure.patch(`/donationrequestsall/${id}`, editedDonationRequest);
@@ -92,9 +92,9 @@ export const EditDonation = () => {
     <div className="p-8">
       <h1 className="text-center text-3xl font-black text-blue-800">Edit Donation Request</h1>
       <div className="flex justify-between gap-10 px-16 pr-24 py-12 w-full">
-        <div className="w-40 ml-20">
+        {/* <div className="w-40 ml-20">
           <img src={donation.photoURL} className="rounded-btn" alt="Avatar" />
-        </div>
+        </div> */}
         <div className="py-12 space-y-4 w-full">
           <form onSubmit={handleSubmit}>
             <div>
@@ -166,9 +166,9 @@ export const EditDonation = () => {
               <div className="flex justify-end mt-4">
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 w-full"
                 >
-                  Save
+                  Save Changes
                 </button>
               </div>
             ) : (
@@ -176,9 +176,9 @@ export const EditDonation = () => {
                 <button
                   type="button"
                   onClick={toggleEditMode}
-                  className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                  className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 w-full"
                 >
-                  Edit
+                    EDIT YOUR INFORMATION
                 </button>
               </div>
             )}
