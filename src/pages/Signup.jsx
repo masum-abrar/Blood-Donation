@@ -129,7 +129,7 @@ export const Signup = () => {
     return (
         <>
             <Helmet>
-                <title>Travel Tourism | Sign Up</title>
+                <title>Blood | Sign Up</title>
             </Helmet>
             <div className="p-12 min-h-screen bg-base-200">
                 <div className="">
