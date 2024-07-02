@@ -6,6 +6,18 @@
 
 <strong> Admin Password :  </strong> Masum@123
 
+
+<strong> Project Concept: </strong>
+The Blood Donation Website is a platform designed to facilitate blood donation by connecting donors with recipients in need of blood. It serves as a centralized hub where users can register as donors, request blood, and participate in blood donation drives. The website aims to streamline the process of finding blood donors, making donations, and spreading awareness about the importance of blood donation.
+
+<strong> Technologies Used: </strong>
+
+* Frontend: React.js
+* Styling: Tailwind CSS
+* Backend : Node.js 
+* Database: MongoDB 
+* Deployment: Vercle
+
  <strong> Ten points Features and characteristics of My website. </strong>
 
 * Donor can create donation Request.
