@@ -47,3 +47,8 @@ The Blood Donation Website is a platform designed to facilitate blood donation b
 
 
 
+<strong> * How to Clone and Run a Project Locally </strong>
+* step 1: need to clone that Repository
+* step 2: npm install
+* step 3: Create and edit the .env file as needed.
+* step 4: npm run dev
